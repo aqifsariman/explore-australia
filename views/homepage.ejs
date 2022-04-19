@@ -6,23 +6,13 @@
   <div class="container mt-5">
   <h1 class="text-center text-dark my-3">Scenes of Australia</h1>
  <div class="row">
-    <%# imageData.forEach((imageURL) => { %>
+    <% imageData.forEach((imageURL) => { %>
   <div class="col-md-4">
-      <img src="<%#=imageURL.urls.small%>" class="d-block w-100 mh-40 my-3">     
+      <img src="<%=imageURL.urls.small%>" class="d-block w-100 mh-40 my-3">     
   </div>
-      <%# }) %>
+      <% }) %>
 </div>
 </div>
 </div>
 </div>
 <%- include('footer') -%>
-
-<!-- <script>
-  const retrieveVisits = document.cookie.split('; ').find(row => row.startsWith('visits=')).split('=')[1];
-  console.log(retrieveVisits)
-
-  if (retrieveVisits > 1) { 
-    document.getElementById("alert").classList.add('d-none')
-  } 
-
-</script> -->

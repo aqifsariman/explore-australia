@@ -167,13 +167,13 @@ const restrictToLogIn = (request, response, next) => {
 
 app.get('/', restrictToLogIn, async (req, res) => {
   const { username } = req.cookies;
-  // const image = await axios.get(`${unsplashURL}/photos/random?query=australia&count=9&orientation=landscape`, {
-  //   headers: {
-  //     Authorization: `Client-ID ${ACCESS_KEY}`,
-  //   },
-  // });
-  // const imageData = image.data;
-  // res.render('homepage', { username, imageData });
+  const image = await axios.get(`${unsplashURL}/photos/random?query=australia&count=9&orientation=landscape`, {
+    headers: {
+      Authorization: `Client-ID ${ACCESS_KEY}`,
+    },
+  });
+  const imageData = image.data;
+  res.render('homepage', { username, imageData });
   res.render('homepage', { username });
 });
 
