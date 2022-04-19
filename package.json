@@ -1,0 +1,37 @@
+{
+  "name": "travel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "airport-codes": "^1.0.2",
+    "amadeus": "^5.7.1",
+    "axios": "^0.26.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "jssha": "^3.2.0",
+    "method-override": "^3.0.0",
+    "moment": "^2.29.1",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7",
+    "pg": "^8.7.3",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-react": "^7.29.4"
+  }
+}
