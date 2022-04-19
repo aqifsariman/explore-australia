@@ -1,0 +1,64 @@
+<%- include('header') -%>
+<div class="jumbotron my-auto d-flex align-items-center justify-content-center trip-bg">
+ <div class="col-sm-12 mt-5">
+  <div class="d-flex justify-content-center dropdown mt-5">
+  <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Filter By City
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="/attractions?filterBy=Adelaide">Adelaide</a>
+    <a class="dropdown-item" href="/attractions?filterBy=Brisbane">Brisbane</a>
+    <a class="dropdown-item" href="/attractions?filterBy=Canberra">Canberra</a>
+    <a class="dropdown-item" href="/attractions?filterBy=Darwin">Darwin</a>
+    <a class="dropdown-item" href="/attractions?filterBy=Hobart">Hobart</a>
+    <a class="dropdown-item" href="/attractions?filterBy=Perth">Perth</a>
+    <a class="dropdown-item" href="/attractions?filterBy=Melbourne">Melbourne</a>
+    <a class="dropdown-item" href="/attractions?filterBy=Sydney">Sydney</a>
+  </div>
+  <button class="btn btn-light mx-3"><a href="/attractions" class="text-dark">Clear Filter</a></button>
+</div>
+    <div class="container">
+    <% finalResults.forEach((attraction) =>{ %>
+      <p class="text-light fs-2 my-3 fw-bolder"><%= attraction.attractionsname %> <span> - <%= attraction.name %></span></p>
+      <div class="d-flex flex-wrap justify-content-start align-items-center my-3 mx-auto row">
+      <img src="<%= attraction.imagelink %>" class="img-fluid attraction-img "> 
+      <div class="col">
+      <p class="text-light col-xs-4 fs-3 col-xl-6 mx-3 text-start"> <%= attraction.details %></p>
+      <iframe name="hiddenFrame" class="hide"></iframe>
+      <form id="favorite-form<%=attraction.attractionsid%>" method="post" target="hiddenFrame">
+      <button class="btn glyphicon glyphicon-heart-empty text-light" data-bs-toggle="tooltip" data-bs-placement="right" title="Click to favorite this" style="font-size: 15px;" attractionId="<%=attraction.attractionsid%>" cityId="<%=attraction.citiesid%>"> Favorite</button>
+    </form>
+      </div>
+      </div>
+     <% }); %>
+  </div>
+  </div>
+  </div>
+  <script>
+    const favorite = document.querySelectorAll('button[class="btn glyphicon glyphicon-heart-empty text-light"]')
+    favorite.forEach((favorites) => {
+     favorites.addEventListener('click', ()=>{
+       const attractionId = favorites.getAttribute('attractionId')
+       const cityId = favorites.getAttribute('cityId')
+       const favoriteForm = document.getElementById(`favorite-form${attractionId}`)
+       console.log(favoriteForm);
+       if(!favorites.getAttribute('selected')){
+         favorites.classList.remove('glyphicon-heart-empty');
+         favorites.classList.add('glyphicon-heart');
+         favorites.setAttribute('selected',true);
+         favoriteForm.setAttribute('action', `/favorite/${attractionId}/${cityId}`)
+        }
+        else if(favorites.getAttribute('selected') == "true"){
+          favorites.removeAttribute('selected')
+          favorites.classList.remove('glyphicon-heart');
+          favorites.classList.add('glyphicon-heart-empty');
+         favorites.removeAttribute('action');
+         favorites.removeAttribute('selected');
+         favoriteForm.setAttribute('action', `/unfavorite/${attractionId}`)
+
+        }
+      })
+    })
+  </script>
+<%- include('footer') -%>
+

@@ -1,0 +1,55 @@
+<%- include('header') -%>
+  <div class="row d-flex min-vh-100 mx-auto trip-bg ">
+<% finalResults.forEach((results) => {%>
+  <div class="col-md-4 my-auto d-flex justify-content-center">
+    <div class="card-container" style="margin-bottom: 215px;">
+  <div class="card mb-3 card-front">
+    <div class="card-header bg-dark">
+    <h3 class="text-center text-light"><%=results.tripname%></h3>
+    </div>
+  <img class="card-img-top" src="<%=results.imagelink%>" alt="Card image cap">
+  <div class="card-body">
+    <p class="card-text">Date From: <span class="fw-bolder"> <%=moment(results.datefrom, 'YYYY-MM-DD').format('MMMM Do YYYY')%></span></p>
+    <p class="card-text">Date To: <span class="fw-bolder"><%=moment(results.dateto, 'YYYY-MM-DD').format('MMMM Do YYYY')%></span></p>
+    <p class="card-text">City: <span class="fw-bolder"><%=results.name %></span></p>
+  </div>
+</div>
+  <div class="card mb-3 card-back">
+    <div class="card-header bg-dark">
+    <h3 class="text-center text-light"><%=results.tripname%></h3>
+    </div>
+  <img class="card-img-top" src="<%=results.imagelink%>" alt="Card image cap">
+  <div class="card-body">
+    <p class="card-text">Date From: <span class="fw-bolder"> <%=moment(results.datefrom, 'YYYY-MM-DD').format('MMMM Do YYYY')%></span></p>
+    <p class="card-text">Date To: <span class="fw-bolder"><%=moment(results.dateto, 'YYYY-MM-DD').format('MMMM Do YYYY')%></span></p>
+    <p class="card-text">City: <span class="fw-bolder"><%=results.name %></span></p>
+    <p class="card-text">Attractions: <span class="fw-bolder"><%=results.attractions %></span></p>
+    <p class="card-text">Total Pax: <span class="fw-bolder"><%=results.totalpax %></span></p>
+    <p class="card-text">Budget: <span class="fw-bolder">$<%=results.budget %></span></p>
+    <p class="card-text">Total Cost: <span class="fw-bolder">$<%=results.totalcost %></span></p>
+    <div class="row d-flex justify-content-center mx-auto">
+      <div class="col">
+    <button type="button"class="btn btn-outline-dark btn-sm"><a class="text-dark" href="/edit-trip/<%=results.id%>">Edit Trip</a></button>
+      </div>
+    <div class="col"><form
+        action="/edit-trip/<%=results.id%>?_method=DELETE"
+        method="POST"
+      >
+        <input
+          type="submit"
+          value="Delete Trip"
+          class="btn btn-sm btn-outline-dark"
+          onclick="return confirm('Are you sure you want to delete this trip?');"
+        />
+      </form></div>
+      <div class="col">
+        <button class="btn btn-outline-dark btn-sm"><a class="text-dark" href="/weather/<%=results.name%>">View Weather Forecast</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+<% }) %>
+</div>
+<%- include('footer') -%>

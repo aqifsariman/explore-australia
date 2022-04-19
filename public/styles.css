@@ -1,0 +1,169 @@
+body {
+ font-family: 'IBM Plex Serif', serif;
+}
+
+.signup-bg{
+  background-color: #99A799;
+}
+
+.form-bg{
+  background-color: white;
+}
+
+.login-bg {
+  background-color: #ADC2A9;
+}
+
+.homepage-bg {
+  background-image: url('https://thumbs.gfycat.com/AnchoredShoddyHarborseal-max-1mb.gif');
+}
+
+.trip-bg{
+  background-color:#1A374D;
+}
+
+.centered{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.page-bg {
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTffGmekgxWfKqv30vF5lTc4tXJDhTMKDHSMw&usqp=CAU');
+  min-height: 100%;
+  min-width: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+.attractions-bg {
+  background-image: url('https://i.gifer.com/6ef4.gif');
+}
+
+img {
+  width: 70px;
+  height: auto;
+  background: transparent;
+}
+
+.logo{
+   width: 50px;
+  height: auto;
+  background: transparent;
+  padding-left: 3px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.button {
+  width: 100px;
+  height: 30px;
+}
+
+.navbar-nav .nav-link {
+  padding-left: 30px;
+}
+
+.dropdown-item {
+  padding-left: 5px;
+}
+
+div.text{
+position:relative;
+}
+
+div.text input{
+  padding-left: 15px;
+}
+
+div.text:after{
+position: absolute;
+    left: 6px;
+    top: 2px;
+    content: '$';
+    font-size: x-large;
+    color: rgb(0, 0, 0);
+}
+
+.no-border {
+    border: 0;
+    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}
+
+input.transparent-input{
+       background-color:rgba(0,0,0,0) !important;
+       border:none !important;
+    }
+
+.attraction-img {
+  width: auto;
+  height: 40vh;
+}
+.cities-img {
+  width: auto;
+  height: 40vh;
+}
+
+.big-checkbox  > input {
+  height: 45px;
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.transparent-icon {
+  opacity: 0.8;
+}
+
+.transparent{
+   background: rgba(0, 0, 0, 0);
+}
+
+.remove-transparent{
+   background: rgb(255, 255, 255);
+}
+
+.card-container {
+  width: 45rem;
+  perspective: 200rem;
+  position: relative;
+  height: 500px;
+}
+
+.card-container:hover .card-front {
+ transform: rotateY(180deg);
+} 
+
+.card-container:hover .card-back {
+ transform: rotateY(0deg);
+} 
+
+.card-back {
+ transform: rotateY(180deg);
+ z-index: 1001;
+}
+
+.card {
+  position: absolute;
+  cursor:pointer;
+  transition: all 0.9s;
+  backface-visibility: hidden;
+  width: 100%;
+}
+.input-lg {
+  height: 30px;
+  padding: 2px 5px;
+  font-size: 15px;
+  line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
+  border-radius: 3px;
+}

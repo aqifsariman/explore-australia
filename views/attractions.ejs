@@ -1,0 +1,98 @@
+<%- include('header') -%>
+<div class="progress w-50 mx-auto progress-lg mt-5 mb-5" style="height: 45px;">
+<div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%; background-color: #1A374D;"><h3>Step 1</h3></div>
+<div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%; background-color: #1A374D;"><h3>Step 2</h3></div>
+</div>
+<div class="container mb-5 trip-bg">
+  <form class="row g-3 needs-validation mx-5" action="/add-attractions/<%=tripId%>/<%=cityId%>?_method=PUT" method="POST" novalidate>
+   <div class="col-sm-12 mt-3">
+      <div>
+      <label for="attractions" class="form-label text-light fs-1 ml-4 mt-5">Attractions</label>
+      </div>
+      
+      <div class="form-check form-switch big-checkbox">
+      <% attractions.forEach((attraction) =>{ %>
+        <input class="form-check-input my-3" type="checkbox" data-value="<%=attraction.cost  * totalPax%> " value="<%= attraction.name %>" name="attractionName" >
+        <label class="form-check-label text-light my-3 fs-3" value="<%= attraction.name %>"><%= attraction.name %> <span class="text-light p-1 mx-1">AUD$<%=attraction.cost * totalPax %></span></label>
+         <br>
+        <div class="d-flex flex-wrap justify-content-start align-items-center">
+        <img src="<%=attraction.imagelink%>" class="img-fluid attraction-img"> 
+        <p class="text-light col-xs-4 fs-3 col-xl-5 mx-3 text-start"> <%=attraction.details%></p>
+        </div>
+        
+       <% }); %>
+  </div>
+      </div>
+      <div class="fixed-bottom mb-3 ms-3">
+      <fieldset style="width: 10vw;" disabled id="field" class="mb-5"> 
+      <legend class="text-dark fs-1">Total Cost</legend>
+        <div class="mb-3 mx-1 col-8">
+          <div class="text" id="costBox">
+          <input type="number" id="disabledTextInput" class="form-control fs-4 no-border transparent-input mx-2 w-100" value="0">
+          </div>
+        </div>
+    </fieldset>
+    <button class="btn btn-outline-dark btn-lg" type="submit">Submit Attractions</button>
+    </div>
+  
+  </form>
+</div>
+<script>
+  const cookies = document.cookie.split(';');
+   let budget = 0;
+  for(let i = 0; i < cookies.length; i++) {
+    if(cookies[i].includes('budget') === true){
+      budget = Number(cookies[i].replace( /^\D+/g, ''));
+      console.log(budget);
+    };
+  };
+
+  const totalCost = document.getElementById('disabledTextInput');
+  const cost = document.querySelectorAll('input[type="checkbox"]');
+  const costBox = document.getElementById('costBox')
+  let sum = Number(totalCost.value);
+  const node = document.createElement('h5');
+  const exceedText = document.createElement('div')
+  exceedText.classList.add('alert');
+  exceedText.classList.add('alert-danger');
+  exceedText.classList.add('d-flex');
+  exceedText.classList.add('justify-content-center');
+  exceedText.setAttribute('role', 'alert')
+  const textNode = document.createTextNode("Exceeded Budget!")
+  exceedText.appendChild(textNode)
+  const nav = document.getElementById('nav')
+  const fieldset = document.getElementById('field')
+  node.classList.add('text-danger');
+  node.classList.add('mt-3');
+
+  cost.forEach((attractionCost) => {
+      attractionCost.addEventListener('click', () => {
+        if (attractionCost.getAttribute('selected') != "true"){
+          sum += Number(attractionCost.dataset.value);
+          totalCost.value = sum;
+          attractionCost.setAttribute('selected', true)
+          if(sum > budget){
+            costBox.appendChild(node);
+            fieldset.prepend(exceedText)
+            console.log('Exceed!');
+          }
+         
+        }
+        else if (attractionCost.getAttribute('selected') == "true"){
+          attractionCost.removeAttribute('selected')
+          sum -= Number(attractionCost.dataset.value);
+          totalCost.value = sum;
+           if(sum <= budget){
+            costBox.removeChild(node)
+            fieldset.removeChild(exceedText)
+            nav.removeChild(exceedText)
+          }
+        }
+        document.cookie = `totalCost=${sum}`
+      })
+   })
+
+</script>
+
+  </div>
+<%- include('footer') -%>

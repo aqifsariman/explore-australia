@@ -1,0 +1,49 @@
+<%- include('header') -%>
+<div class="jumbotron my-auto d-flex flex-column flex-sm-wrap align-items-center justify-content-center homepage-bg" style="height:100vh; width:100vw">
+    <table class="table table-striped mt-5 col-sm-4 table-borderless" style="width:50vw">
+      <thead>
+        <div>
+          <th scope="col" colspan="12" class="text-center text-light bg-transparent"><h1>Trips Planned</h1></th>
+        </div>
+        <tr class="text-light">
+          <th scope="col">Trip Name</th>
+          <th scope="col">Date From</th>
+          <th scope="col">Date To</th>
+          <th scope="col">City</th>
+          <th scope="col">Attractions</th>
+          <th scope="col">Budget</th>
+        </tr>
+      </thead>
+      <tbody>
+         <tr class="d-flex flex-sm-wrap"></tr>
+         <% function capitalizeFirstLetter(str) { %>
+            <% const capitalized = str.charAt(0).toUpperCase() + str.slice(1);%>
+                <%return capitalized;%>
+          <%}%>
+        <% finalResults.forEach((results) => {%>
+          <td class="col text-light" ><%=results.tripname %></a></td>
+          <td class="col text-light" ><%=moment(results.datefrom, 'YYYY-MM-DD').format('MMMM Do YYYY')%></td>
+          <td class="col text-light" ><%=moment(results.dateto, 'YYYY-MM-DD').format('MMMM Do YYYY')%></td>
+          <td class="col text-light" ><%=results.name %></td>
+          <td class="col text-light" >$<%=results.budget %></td>
+          <td><button class="btn btn-outline-dark"><a class="text-light" href="/planned-trips/<%=username%>/<%=results.id%>">View All Trips</a></button></td>
+        <% }) %>
+      </tbody>
+    </table>
+     <!-- <div class="dropdown">
+  <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort By
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="/getallnotes?sort=date">Date</a>
+    <a class="dropdown-item" href="/getallnotes?sort=habitat">Habitat</a>
+    <a class="dropdown-item" href="/getallnotes?sort=behaviour">Behaviour</a>
+    <a class="dropdown-item" href="/getallnotes?sort=flock_size">Flock Size</a>
+    <a class="dropdown-item" href="/getallnotes?sort=user_submitted">User Submitted</a>
+  </div>
+</div> -->
+  </div>
+  
+
+
+<%- include('footer') -%>

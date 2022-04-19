@@ -1,0 +1,35 @@
+{
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "emmet.includeLanguages": {
+    "ejs": "html"
+  },
+  "files.associations": {
+    "*ejs":"html"
+  }, "html.format.templating": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "eslint.validate": ["javascript"],
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.minimap.enabled": false,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.migration.2_x": "off",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.donotVerifyTags": true,
+  "explorer.sortOrder": "modified",
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "diffEditor.maxComputationTime": 0,
+  "eslint.alwaysShowStatus": true,
+  "prettier.singleQuote": true,
+  "window.zoomLevel": -2
+}

@@ -1,0 +1,82 @@
+<%- include('header') -%>
+<div class="jumbotron d-flex align-items-center justify-content-center attractions-bg">
+<form class="row g-3 needs-validation" action="/edit-trip/<%=finalResults.id%>?_method=PUT" method="POST" novalidate>
+<h1 class="text-center fw-bolder text-light">Edit Trip</h1>
+  <div class="col-12 mt-3 ">
+    <label for="tripName" class="form-label text-light">Trip Name</label>
+    <input type="text" class="form-control" id="tripName" value="<%=finalResults.tripname%>" name="tripName" required>
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-md-12 dateContainer">
+    <label for="date" class="form-label text-light">Date</label>
+    <div class="input-group input-daterange">
+    <input type="date" class="form-control" name="dateFrom" value="<%=finalResults.datefrom%>">
+    <div class="input-group-addon text-light mx-3 fs-4"> To </div>
+    <input type="date" class="form-control" name="dateTo" value="<%=finalResults.dateto%>">
+  </div>
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-12">
+    <label for="budget" class="form-label text-light">Budget</label>
+    <div class="text">
+    <input type="number" min="0" class="form-control" id="budget" name="budget" value="<%=finalResults.budget%>" required>
+    </div>
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+
+  <div class="col-md-12 mt-3">
+    <div>
+    <label for="cityId" class="form-label text-light"></label>
+    </div>
+    <select class="form-select" aria-label="Default select example" name="cityId">
+       <option selected value="<%=city.id%>"><%=city.name%></option>
+      <% listOfCities.forEach((city) =>{ %>
+      <option value="<%= city.id %>"><%= city.name %></option>
+     <% }); %>
+    </select>  
+    </div>
+  
+    <div class="invalid-feedback">
+      Please input valid data.
+  </div>
+  </div>
+
+ 
+  <div class="col-12 mt-4 d-flex justify-content-center ">
+    <button class="btn btn-outline-light" type="submit">Choose Attractions</button>
+  </div>
+</form>
+  </div>
+  <script>// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})();
+
+var dateTime = document.getElementById("date").value;
+var today = new Date().toISOString().split('T')[0];
+document.getElementById("dateTime").setAttribute('max', today);
+</script>
+
+
+<%- include('footer') -%>

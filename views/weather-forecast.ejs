@@ -1,0 +1,48 @@
+<%- include('header') -%>
+<h1 class="text-center fw-bolder text-dark mt-5 ms-1">Weather Forecast</h1>
+<div class="d-flex container mh-75 mt-5 ">
+  <div class="row ">
+    <% finalResults.forEach((link)=>{ %>
+      <div class="col"><a class="text-dark text-xl" href="/weather/<%=link.name%>"><img class="rounded" src="<%=link.imagelink%>" style="width:150px; height:auto"><h2><%=link.name%></h2></a></div>
+    <%})%>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 my-auto">
+   <div class="d-flex justify-content-center">
+   <h1 class="mt-5 fw-bolder text-dark"><%=cityName %></h1>
+   </div>
+    <div class="container">
+      <div class="row">`
+    <% periods.forEach((forecast) =>{ %>
+      <div class="col">
+        <p class="text-dark fs-5 my-4"> <%=moment(forecast.validTime, 'YYYY-MM-DDTHH:mm:ss+-HH:mm').format('MMMM Do YYYY') %></p>
+        <% if (forecast.weather.includes("Showers") && !forecast.weather.includes("Cloudy")) { %>
+          <div class="col">
+        <p class="text-dark col-xs-6 fs-5 col-xl-6 text-start fw-bold"><img class="mx-3 img-thumbnail" style="width:150px; height:auto" src="https://img.favpng.com/1/1/20/computer-icons-thunderstorm-rain-cloud-png-favpng-0MQbsBTxL4wXe8T34Xpn01LG0.jpg"></p>
+        <p class="text-dark col-xs-6 fs-5 col-xl-6 text-center fw-bold"><%=forecast.avgTempC%>°C</p>
+        </div>
+        <% } %>
+        <% if(forecast.weather.includes("Sunny")){ %>
+          <div class="col">
+          <p class="text-dark col-xs-6 fs-5 col-xl-6 text-start fw-bold"><img class="mx-3 img-thumbnail" style="width:150px; height:auto" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Weather_icon_-_sunny.svg/1200px-Weather_icon_-_sunny.svg.png"> </p>
+          <p class="text-dark col-xs-6 fs-5 col-xl-6 text-center fw-bold"> <%=forecast.avgTempC%>°C</p>
+          </div>
+          <% } %>
+        <% if(forecast.weather.includes("Cloudy") && !forecast.weather.includes("Showers")){ %>
+          <div class="col">
+          <p class="text-dark col-xs-6 fs-5 col-xl-6 text-start fw-bold"><img class="mx-3 img-thumbnail" style="width:150px; height:auto" src="https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather04-512.png"> </p>
+          <p class="text-dark col-xs-6 fs-5 col-xl-6 text-center fw-bold"> <%=forecast.avgTempC%>°C</p>
+          </div>
+          <% } %>
+        <% if(forecast.weather.includes("Cloudy") && forecast.weather.includes("Showers")){ %>
+          <div class="col">
+          <p class="text-dark col-xs-6 fs-5 col-xl-6 text-start fw-bold"><img class="mx-3 img-thumbnail" style="width:150px; height:auto" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Weather-showers-scattered.svg/1200px-Weather-showers-scattered.svg.png"> </p>
+          <p class="text-dark col-xs-6 fs-5 col-xl-6 text-center fw-bold"> <%=forecast.avgTempC%>°C</p>
+          </div>
+          <% } %>
+      </div>
+     <% }); %>
+     </div>
+  </div>
+  </div>
+</div>
+<%- include('footer') -%>
