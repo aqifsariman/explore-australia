@@ -1,1 +1,1 @@
-# explore-australia
+# Explore Australia
