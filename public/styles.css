@@ -167,3 +167,11 @@ input.transparent-input{
   line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
   border-radius: 3px;
 }
+
+.form-control{
+  font-size: 1.8rem !important;
+}
+
+ .form-select{
+  font-size: 1.8rem !important;
+}

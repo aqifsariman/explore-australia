@@ -1,8 +1,8 @@
 <%- include('header') -%>
-<h1 class="text-center fw-bolder text-dark mt-5 ms-1">Weather Forecast</h1>
-<div class="d-flex container mh-75 mt-5 ">
-  <div class="row ">
-    <% finalResults.forEach((link)=>{ %>
+  <h1 class="text-center fw-bolder text-dark mt-5 ms-1">Weather Forecast</h1>
+  <div class="d-flex container mh-75 mt-5 ">
+    <div class="row ">
+      <% finalResults.forEach((link)=>{ %>
       <div class="col"><a class="text-dark text-xl" href="/weather/<%=link.name%>"><img class="rounded" src="<%=link.imagelink%>" style="width:150px; height:auto"><h2><%=link.name%></h2></a></div>
     <%})%>
   </div>

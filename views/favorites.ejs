@@ -1,9 +1,9 @@
 <%- include('header') -%>
-<h1 class="text-center">Favorites</h1>
-<div class=" my-auto d-flex align-items-center justify-content-center trip-bg">
- <div class="col-sm-12 mt-5">
-    <div class="container">
-    <% finalResults.forEach((attraction) =>{ %>
+  <h1 class="text-center">Favorites</h1>
+  <div class=" my-auto d-flex align-items-center justify-content-center trip-bg">
+    <div class="col-sm-12 mt-5">
+      <div class="container">
+        <% finalResults.forEach((attraction)=>{ %>
       <p class="text-light fs-2 my-3 fw-bolder"><%= attraction.attractionsname %> <span> - <%= attraction.name %></span></p>
       <div class="d-flex flex-wrap justify-content-start align-items-center my-3 mx-auto row">
       <img src="<%= attraction.imagelink %>" class="img-fluid attraction-img "> 
@@ -16,4 +16,3 @@
   </div>
   </div>
 <%- include('footer') -%>
-

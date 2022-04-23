@@ -1,7 +1,7 @@
 <%- include('header') -%>
   <div class="row d-flex min-vh-100 mx-auto trip-bg ">
-<% finalResults.forEach((results) => {%>
-  <div class="col-md-4 my-auto d-flex justify-content-center">
+    <% finalResults.forEach((results)=> {%>
+  <div class="col-md-4 my-auto d-flex justify-content-center mt-5">
     <div class="card-container" style="margin-bottom: 215px;">
   <div class="card mb-3 card-front">
     <div class="card-header bg-dark">
@@ -29,7 +29,7 @@
     <p class="card-text">Total Cost: <span class="fw-bolder">$<%=results.totalcost %></span></p>
     <div class="row d-flex justify-content-center mx-auto">
       <div class="col">
-    <button type="button"class="btn btn-outline-dark btn-sm"><a class="text-dark" href="/edit-trip/<%=results.id%>">Edit Trip</a></button>
+    <button type="button"class="btn btn-outline-dark btn-lg"><a class="text-dark" href="/edit-trip/<%=results.id%>">Edit Trip</a></button>
       </div>
     <div class="col"><form
         action="/edit-trip/<%=results.id%>?_method=DELETE"
@@ -38,12 +38,12 @@
         <input
           type="submit"
           value="Delete Trip"
-          class="btn btn-sm btn-outline-dark"
+          class="btn btn-lg btn-outline-dark"
           onclick="return confirm('Are you sure you want to delete this trip?');"
         />
       </form></div>
       <div class="col">
-        <button class="btn btn-outline-dark btn-sm"><a class="text-dark" href="/weather/<%=results.name%>">View Weather Forecast</a></button>
+        <button class="btn btn-outline-dark btn-lg"><a class="text-dark" href="/weather/<%=results.name%>">Weather Forecast</a></button>
       </div>
     </div>
   </div>

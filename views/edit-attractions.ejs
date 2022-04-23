@@ -10,8 +10,9 @@
     </div>
   </div>
   <div class="container mb-5 trip-bg">
-    <form class="row g-3 needs-validation mx-5" action="/add-attractions/<%=tripId%>/<%=cityId%>?_method=PUT"
-      method="POST" novalidate>
+    <form class="row g-3 needs-validation mx-5"
+      action="/edit-final-attractions/<%=tripId%>/<%=cityId%>/<%=totalPax%>/<%=budget%>?_method=PUT" method="POST"
+      novalidate>
       <div class="col-sm-12 mt-3">
         <div>
           <label for="attractions" class="form-label text-light fs-1 ml-4 mt-5">Attractions</label>
@@ -32,11 +33,11 @@
       </div>
       <!-- position absolute and bottom 0 -->
       <div class="fixed-bottom mb-3 ms-3">
-      <fieldset style="width: 10vw;" disabled id="field" class="mb-5"> 
+      <fieldset style="width: 10vw;"  id="field" class="mb-5"> 
       <legend class="text-dark fs-1">Total Cost</legend>
         <div class="mb-3 mx-1 col-8">
           <div class="text" id="costBox">
-          <input type="number" id="disabledTextInput" class="form-control fs-4 no-border transparent-input mx-2 w-100" value="0">
+          <input name="totalCost" type="number" id="disabledTextInput" class="form-control fs-4 no-border transparent-input mx-2 w-100" value="0" >
           </div>
         </div>
     </fieldset>

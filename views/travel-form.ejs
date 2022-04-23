@@ -1,39 +1,52 @@
 <%- include('header') -%>
-<div class="progress w-50 mx-auto progress-lg mt-5" style="height: 45px;">
-<div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50% ;background-color: #1A374D"><h3>Step 1</h3></div>
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-light text-dark" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><h3>Step 2</h3></div>
-</div>
-<div class="container" style="background-color: #1A374D">
-<div class="row mt-5" >
-  <div class="col p-0"><img src="https://cdn.dribbble.com/users/2002439/screenshots/4079452/__________-1-01.jpg" class="w-100"></div>
-  <div class="col d-flex">
-  <form class="row g-3 needs-validation mx-auto my-auto" action="/add-trip" method="POST" novalidate>
-  <h1 class="text-center fw-bolder text-light">Add Trip</h1>
-   <div class="col-md-12 mt-3">
-      <label for="tripName" class="form-label text-light">Trip Name</label>
-      <input type="text" class="form-control border-top-0 border-end-0 border-start-0 input-lg" id="tripName" placeholder="Trip Name" name="tripName" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
+  <div class="progress w-50 mx-auto progress-lg mt-5" style="height: 45px;">
+    <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50"
+      aria-valuemin="0" aria-valuemax="100" style="width: 50% ;background-color: #1A374D">
+      <h3>Step 1</h3>
     </div>
-    <div class="col-md-12 dateContainer">
-      <label for="date" class="form-label text-light">Date</label>
-  <div class="input-group input-daterange">
-      <input placeholder="Date From" class=" input-lg textbox-n form-control border-top-0 border-end-0 border-start-0" type="text" onfocus="(this.type='date')" id="date" name="dateFrom">
-      <div class="input-group-addon text-light mx-3 fs-4"> To </div>
-         <input placeholder="Date To" class=" input-lg textbox-n form-control border-top-0 border-end-0 border-start-0" type="text" onfocus="(this.type='date')" id="date" name="dateTo">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-light text-dark" role="progressbar"
+      aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+      <h3>Step 2</h3>
+    </div>
   </div>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-12 mt-3">
-      <div>
-      <label for="cityId" class="form-label text-light">City</label>
-      </div>
-      <select class="input-lg form-select border-top-0 border-end-0 border-start-0" aria-label="Default select example" name="cityId">
-         <option selected>Choose City</option>
-        <% listOfCities.forEach((city) =>{ %>
+  <div class="container" style="background-color: #1A374D">
+    <div class="row mt-5">
+      <div class="col p-0"><img src="https://cdn.dribbble.com/users/2002439/screenshots/4079452/__________-1-01.jpg"
+          class="w-100"></div>
+      <div class="col d-flex">
+        <form class="row g-3 needs-validation mx-auto my-auto" action="/add-trip" method="POST" novalidate>
+          <h1 class="text-center fw-bolder text-light">Add Trip</h1>
+          <div class="col-md-12 mt-3">
+            <label for="tripName" class="form-label text-light">Trip Name</label>
+            <input type="text" class="form-control border-top-0 border-end-0 border-start-0 input-lg" id="tripName"
+              placeholder="Trip Name" name="tripName" required>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-md-12 dateContainer">
+            <label for="date" class="form-label text-light">Date</label>
+            <div class="input-group input-daterange">
+              <input placeholder="Date From"
+                class=" input-lg textbox-n form-control border-top-0 border-end-0 border-start-0" type="text"
+                onfocus="(this.type='date')" id="date" name="dateFrom">
+              <div class="input-group-addon text-light mx-3 fs-4"> To </div>
+              <input placeholder="Date To"
+                class=" input-lg textbox-n form-control border-top-0 border-end-0 border-start-0" type="text"
+                onfocus="(this.type='date')" id="date" name="dateTo">
+            </div>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-md-12 mt-3">
+            <div>
+              <label for="cityId" class="form-label text-light">City</label>
+            </div>
+            <select class="input-lg form-select border-top-0 border-end-0 border-start-0"
+              aria-label="Default select example" name="cityId">
+              <option selected>Choose City</option>
+              <% listOfCities.forEach((city)=>{ %>
         <option value="<%= city.id %>"><%= city.name %></option>
        <% }); %>
       </select>
@@ -68,31 +81,31 @@
   
 </div>
   <script>// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
+    (function () {
+      'use strict'
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
 
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
 
-        form.classList.add('was-validated')
-      }, false)
-    })
-})();
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })();
 
-var dateTime = document.getElementById("date").value;
-var today = new Date().toISOString().split('T')[0];
-document.getElementById("dateTime").setAttribute('max', today);
+    var dateTime = document.getElementById("date").value;
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById("dateTime").setAttribute('max', today);
 
-</script>
+  </script>
 
 
 <%- include('footer') -%>

@@ -165,15 +165,15 @@ const restrictToLogIn = (request, response, next) => {
   }
 };
 
-app.get('/', restrictToLogIn, async (req, res) => {
+app.get('/', async (req, res) => {
   const { username } = req.cookies;
-  const image = await axios.get(`${unsplashURL}/photos/random?query=australia&count=9&orientation=landscape`, {
-    headers: {
-      Authorization: `Client-ID ${ACCESS_KEY}`,
-    },
-  });
-  const imageData = image.data;
-  res.render('homepage', { username, imageData });
+  // const image = await axios.get(`${unsplashURL}/photos/random?query=australia&count=9&orientation=landscape`, {
+  //   headers: {
+  //     Authorization: `Client-ID ${ACCESS_KEY}`,
+  //   },
+  // });
+  // const imageData = image.data;
+  // res.render('homepage', { username, imageData });
   res.render('homepage', { username });
 });
 
@@ -283,6 +283,7 @@ app.get('/planned-trips/:username/:tripId', restrictToLogIn, (req, res) => {
   });
 });
 
+// show favorites by inner joining 3 tables
 app.get('/attractions', (req, res) => {
   let finalResults;
   const { filterBy } = req.query;
@@ -390,7 +391,6 @@ app.get('/attractions', (req, res) => {
       });
     } else {
       finalResults = result.rows;
-      console.log(finalResults);
       res.render('all-attractions', {
         username, finalResults,
       });
@@ -431,6 +431,7 @@ app.get('/edit-trip/:tripId', (req, res) => {
         const city = citySelectedResults.rows[0];
         const listOfCities = cityQueryResults.rows;
         const finalResults = tripQueryResults.rows[0];
+        console.log(finalResults);
         res.render('edit-trip', {
           finalResults, username, listOfCities, city,
         });
@@ -441,11 +442,11 @@ app.get('/edit-trip/:tripId', (req, res) => {
 
 app.put('/edit-trip/:tripId', (req, res) => {
   const {
-    tripName, dateFrom, dateTo, cityId, budget,
+    tripName, dateFrom, dateTo, cityId, budget, totalPax,
   } = req.body;
   const { username } = req.cookies;
   const { tripId } = req.params;
-  const insertQuery = `UPDATE userTrip SET username = '${username}', tripName = '${tripName}', dateFrom = '${dateFrom}', dateTo = '${dateTo}', cityId = ${cityId}, budget = ${budget} WHERE id=${tripId}  RETURNING userTrip.*`;
+  const insertQuery = `UPDATE userTrip SET username = '${username}', tripName = '${tripName}', dateFrom = '${dateFrom}', dateTo = '${dateTo}', cityId = ${cityId}, budget = ${budget} WHERE id=${tripId}, totalPax=${totalPax}  RETURNING userTrip.*`;
   const selectQuery = `SELECT * FROM userTrip WHERE id= ${tripId}`;
   pool.query(insertQuery, (error) => {
     if (error) {
@@ -458,9 +459,54 @@ app.put('/edit-trip/:tripId', (req, res) => {
       }
       const finalResults = selectQueryResult.rows[0];
       const { id, cityid } = finalResults;
+      console.log(budget);
       res.cookie('budget', budget);
-      res.redirect(301, `/add-attractions/${id}/${cityid}`);
+      res.redirect(301, `/edit-add-attractions/${id}/${cityid}/${totalPax}/${budget}`);
     });
+  });
+});
+app.get('/edit-add-attractions/:tripId/:cityId/:totalPax/:budget', restrictToLogIn, (req, res) => {
+  const { username } = req.cookies;
+  const {
+    cityId, tripId, totalPax, budget,
+  } = req.params;
+  const values = [cityId];
+  const attractionsQuery = 'SELECT * FROM attractions WHERE cityId = $1';
+  pool.query(attractionsQuery, values, (error, result) => {
+    if (error) {
+      console.log('Error', error);
+    }
+    const attractions = result.rows;
+    console.log(totalPax);
+    console.log(budget);
+    res.render('edit-attractions', {
+      username, attractions, tripId, cityId, budget, totalPax,
+    });
+  });
+});
+
+app.put('/edit-final-attractions/:tripId/:cityId/:totalPax/:budget', restrictToLogIn, (req, res) => {
+  const { username } = req.cookies;
+  const { tripId, totalPax, budget } = req.params;
+  const { attractionName, totalCost } = req.body;
+  const allSummarySelected = [];
+  let allSummaryString = '';
+
+  console.log(totalCost);
+  if (typeof (attractionName) === 'string') {
+    allSummaryString = attractionName;
+  } else if (typeof (attractionName) === 'object') {
+    allSummarySelected.push(attractionName);
+    allSummaryString = allSummarySelected[0].join(', ');
+  }
+
+  const summaryValue = [allSummaryString, totalCost, totalPax, budget, tripId];
+  const inputAttractions = 'UPDATE userTrip SET attractions = $1, totalCost =$2, totalPax=$3, budget=$4  WHERE id = $5';
+  pool.query(inputAttractions, summaryValue, (inputAttractionsError) => {
+    if (inputAttractionsError) {
+      console.log('Error', inputAttractionsError);
+    }
+    res.redirect(301, `/planned-trips/${username}`);
   });
 });
 
@@ -536,11 +582,15 @@ app.get('/favorites/:username', (req, res) => {
       console.log('Error', error);
     }
     finalResults = result.rows;
-    console.log(finalResults);
     res.render('favorites', {
       username, finalResults,
     });
   });
+});
+
+app.get('/blog', (req, res) => {
+  const { username } = req.cookies;
+  res.render('blog', { username });
 });
 
 app.listen(PORT, console.log(` 🚀 Running on port ${PORT}! 🚀`));

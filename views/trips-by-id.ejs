@@ -1,84 +1,78 @@
 <%- include('header') -%>
-<div>
-</div>
-<div class="jumbotron rounded-lg my-auto d-flex align-items-center justify-content-center">
-<div class="container text-dark p-1">
-  <div class="container d-flex col-xs-12">
-  <img src="<%=finalResults.imagelink%>" class="d-block w-100 my-1">
-  <div class="container my-3">
-    <div class="col-12">
-      Trip Name:
-    </div>
-    <div class="col text-info fw-bold">
-    <%=finalResults.tripname%>
-    </div>
- 
-  <div class="row mt-5">
-    <div class="col-12">
-      Date From: 
-    </div>
-    <div class="col text-info fw-bold">
-      <%=moment(finalResults.datefrom, 'YYYY-MM-DD').format('MMMM Do YYYY')%>
+  <div>
+  </div>
+  <div class="jumbotron rounded-lg my-auto d-flex align-items-center justify-content-center">
+    <div class="container text-dark p-1">
+      <div class="container d-flex col-xs-12">
+        <img src="<%=finalResults.imagelink%>" class="d-block w-100 my-1">
+        <div class="container my-3">
+          <div class="col-12">
+            Trip Name:
+          </div>
+          <div class="col text-info fw-bold">
+            <%=finalResults.tripname%>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-12">
+              Date From:
+            </div>
+            <div class="col text-info fw-bold">
+              <%=moment(finalResults.datefrom, 'YYYY-MM-DD' ).format('MMMM Do YYYY')%>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12">
+              Date To:
+            </div>
+            <div class="col text-info fw-bold">
+              <%=moment(finalResults.dateto, 'YYYY-MM-DD' ).format('MMMM Do YYYY')%>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12">
+              City:
+            </div>
+            <div class="col text-info fw-bold">
+              <%=finalResults.name%>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12">
+              Attractions:
+            </div>
+            <div class="col text-info fw-bold">
+              <%=finalResults.attractions%>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12">
+              Budget:
+            </div>
+            <div class="col text-info fw-bold">
+              $<%=finalResults.budget%>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12">
+              Total Cost:
+            </div>
+            <div class="col text-info fw-bold">
+              $<%=finalResults.totalcost%>
+            </div>
+          </div>
+          <div class="mt-5 d-flex justify-content-evenly">
+            <button class="btn btn-outline-dark"><a class="text-dark" href="/edit-trip/<%=tripId%>">Edit
+                Trip</a></button>
+            <form action="/edit-trip/<%=tripId%>?_method=DELETE" method="POST">
+              <input type="submit" value="Delete Trip" class="btn btn-outline-dark mx-5"
+                onclick="return confirm('Are you sure you want to delete this trip?');" />
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row mt-5">
-    <div class="col-12">
-      Date To:
-    </div>
-    <div class="col text-info fw-bold">
-          <%=moment(finalResults.dateto, 'YYYY-MM-DD').format('MMMM Do YYYY')%>
-    </div>
   </div>
-  <div class="row mt-5">
-    <div class="col-12">
-      City:
-    </div>
-    <div class="col text-info fw-bold">
-        <%=finalResults.name%>
-    </div>
   </div>
-  <div class="row mt-5">
-    <div class="col-12">
-      Attractions:
-    </div>
-    <div class="col text-info fw-bold">
-         <%=finalResults.attractions%>
-    </div>
-  </div>
-    <div class="row mt-5">
-    <div class="col-12">
-      Budget:
-    </div>
-    <div class="col text-info fw-bold">
-         $<%=finalResults.budget%>
-    </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-12">
-      Total Cost:
-    </div>
-    <div class="col text-info fw-bold">
-         $<%=finalResults.totalcost%>
-    </div>
-    </div>
-    <div class="mt-5 d-flex justify-content-evenly">
-    <button class="btn btn-outline-dark"><a class="text-dark" href="/edit-trip/<%=tripId%>">Edit Trip</a></button>
-      <form
-        action="/edit-trip/<%=tripId%>?_method=DELETE"
-        method="POST"
-      >
-        <input
-          type="submit"
-          value="Delete Trip"
-          class="btn btn-outline-dark mx-5"
-          onclick="return confirm('Are you sure you want to delete this trip?');"
-        />
-      </form>
-  </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-   </div>
-<%- include('footer') -%>
+  <%- include('footer') -%>

@@ -40,4 +40,4 @@ CREATE TABLE IF NOT EXISTS favorites (
   cityId INTEGER NOT NULL,
   attractionsId INTEGER NOT NULL,
   unique(username, attractionsId)
-);
+); 
