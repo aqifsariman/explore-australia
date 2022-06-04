@@ -1,128 +1,19 @@
-/* eslint-disable max-len */
-/* eslint-disable new-cap */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-loop-func */
-/* eslint-disable no-console */
-/* eslint-disable prefer-destructuring */
 /* eslint-disable import/extensions */
-/* eslint-disable no-plusplus */
-// eslint-disable-next-line no-unused-vars
 import express from 'express';
 import methodOverride from 'method-override';
-import cookieParser from 'cookie-parser';
-import jsSHA from 'jssha';
 import path from 'path';
-import favicon from 'serve-favicon';
 import axios from 'axios';
 import moment from 'moment';
 import dotenv from 'dotenv';
 import pool from './pool.js';
 
 const app = express();
-const __dirname = path.resolve();
 const envFilePath = '.env';
 dotenv.config({ path: path.normalize(envFilePath) });
-
-app.set('view engine', 'ejs');
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static('public'));
-
-// Override POST requests with query param ?_method=PUT to be PUT requests
 app.use(methodOverride('_method'));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-// initialize salt as a global constant
-const {
-  // eslint-disable-next-line no-unused-vars
-  SALT, PORT, ACCESS_KEY,
-// eslint-disable-next-line no-undef
-} = process.env;
 
-// eslint-disable-next-line no-unused-vars
-const unsplashURL = 'https://api.unsplash.com';
-
-const getHash = (input) => {
-  // create new SHA object
-  const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
-
-  // create an unhashed cookie string based on user ID and salt
-  const unhashedString = `${input}-${SALT}`;
-
-  // generate a hashed cookie string using SHA object
-  shaObj.update(unhashedString);
-  return shaObj.getHash('HEX');
-};
-
-const getSignUp = (req,res) => {
-  res.render('signup')
-}
-
-const postSignUp = (req, res) => {
-  const input = req.body;
-  const insertQuery = 'INSERT INTO users (username, email, firstName, lastName, password) VALUES ($1, $2, $3, $4, $5)';
-  if (input === null || input === undefined) {
-    res.render('signup');
-  }
-
-  const hashedPassword = getHash(input.password);
-  const values = [input.username, input.email, input.firstName, input.lastName, hashedPassword];
-  res.cookie('signUp', true);
-  res.cookie('loggedIn', 'pending');
-  pool.query(insertQuery, values, (err) => {
-    if (err) {
-      console.log('Error: ', err);
-    }
-  });
-  res.redirect(301, '/login');
-}
-
-const getLogin = (req, res) => {
-  res.render('login');
-}
-
-const postLogin = (req, res) => {
-  const values = [req.body.username];
-  const { username } = req.body;
-  const loginQuery = 'SELECT * FROM users WHERE username=$1';
-  pool.query(loginQuery, values, (error, result) => {
-    if (error) {
-      console.log('Error executing query', error.stack);
-      res.status(503).send(result.rows[0]);
-      return;
-    }
-
-    if (result.rows.length === 0) {
-      res.status(403);
-      res.cookie('loggedIn', false);
-      res.render('login');
-      return;
-    }
-
-    const user = result.rows[0];
-
-    const hashedPassword = getHash(req.body.password);
-
-    if (user.password === hashedPassword) {
-      const hashedCookieString = getHash(user.username);
-      res.cookie('loggedInHash', hashedCookieString);
-      res.cookie('username', username);
-      res.redirect(301, '/');
-      console.log('Login success!');
-    } else {
-      res.status(403);
-      res.redirect(301, '/login');
-    }
-  });
-}
-
-const deleteLogout = (req, res) => {
-  res.clearCookie('loggedIn');
-  res.clearCookie('username');
-  res.redirect(301, '/login');
-}
-
-const getHomepage = async (req, res) => {
+export const getHomepage = async (req, res) => {
   const { username } = req.cookies;
   // const image = await axios.get(`${unsplashURL}/photos/random?query=australia&count=9&orientation=landscape`, {
   //   headers: {
@@ -135,7 +26,7 @@ const getHomepage = async (req, res) => {
   res.render('homepage', { username });
 }
 
-const getAddTrip = (req, res) => {
+export const getAddTrip = (req, res) => {
   // let cityInfo;
   const { username } = req.cookies;
   const citiesQuery = 'SELECT * FROM cities ORDER BY name ASC';
@@ -149,7 +40,7 @@ const getAddTrip = (req, res) => {
   });
 }
 
-const postAddTrip = (req, res) => {
+export const postAddTrip = (req, res) => {
   const {
     tripName, dateFrom, dateTo, cityId, budget, totalPax,
   } = req.body;
@@ -168,7 +59,7 @@ const postAddTrip = (req, res) => {
   });
 }
 
-const getAddAttraction = (req, res) => {
+export const getAddAttraction = (req, res) => {
   const { username, budget } = req.cookies;
   const { cityId, tripId } = req.params;
   const { totalPax } = req.query;
@@ -186,7 +77,7 @@ const getAddAttraction = (req, res) => {
   });
 }
 
-const putAddAttractions = (req, res) => {
+export const putAddAttractions = (req, res) => {
   const { username, totalCost } = req.cookies;
   const { tripId } = req.params;
   const { attractionName } = req.body;
@@ -210,7 +101,7 @@ const putAddAttractions = (req, res) => {
   });
 }
 
-const getPlannedTrips = (req, res) => {
+export const getPlannedTrips = (req, res) => {
   const { username } = req.cookies;
   const values = [username];
   const tripsQuery = ' SELECT attractions, tripName, dateFrom, dateTo, cities.name, budget, totalCost, usertrip.Id, totalPax, imageLink FROM userTrip INNER JOIN cities ON userTrip.cityId = cities.Id WHERE username = $1 ORDER BY dateFrom ASC';
@@ -224,7 +115,7 @@ const getPlannedTrips = (req, res) => {
   });
 }
 
-const getPlannedTripsByTripId = (req, res) => {
+export const getPlannedTripsByTripId = (req, res) => {
   const { username } = req.cookies;
   const { tripId } = req.params;
   const value = [tripId];
@@ -241,7 +132,7 @@ const getPlannedTripsByTripId = (req, res) => {
   });
 }
 
-const getAttractions = (req, res) => {
+export const getAttractions = (req, res) => {
   let finalResults;
   const { filterBy } = req.query;
   const { username } = req.cookies;
@@ -355,7 +246,7 @@ const getAttractions = (req, res) => {
   });
 }
 
-const getDestinations = (req, res) => {
+export const getDestinations = (req, res) => {
   const { username } = req.cookies;
   const cityQuery = 'SELECT * FROM cities ORDER BY id ASC';
   pool.query(cityQuery, (error, result) => {
@@ -367,7 +258,7 @@ const getDestinations = (req, res) => {
   });
 }
 
-const getEditTrip = (req, res) => {
+export const getEditTrip = (req, res) => {
   const { username } = req.cookies;
   const { tripId } = req.params;
   const tripQuery = `SELECT * FROM userTrip WHERE id=${tripId}`;
@@ -397,7 +288,7 @@ const getEditTrip = (req, res) => {
   });
 }
 
-const putEditTrip = (req, res) => {
+export const putEditTrip = (req, res) => {
   const {
     tripName, dateFrom, dateTo, cityId, budget, totalPax,
   } = req.body;
@@ -423,7 +314,7 @@ const putEditTrip = (req, res) => {
   });
 }
 
-const getEditAddAttractions = (req, res) => {
+export const getEditAddAttractions = (req, res) => {
   const { username } = req.cookies;
   const {
     cityId, tripId, totalPax, budget,
@@ -443,7 +334,7 @@ const getEditAddAttractions = (req, res) => {
   });
 }
 
-const putEditAddAttractions = (req, res) => {
+export const putEditAddAttractions = (req, res) => {
   const { username } = req.cookies;
   const { tripId, totalPax, budget } = req.params;
   const { attractionName, totalCost } = req.body;
@@ -468,7 +359,7 @@ const putEditAddAttractions = (req, res) => {
   });
 }
 
-const deleteEditTrip = (req, res) => {
+export const deleteEditTrip = (req, res) => {
   const { username } = req.cookies;
   const { tripId } = req.params;
   const deleteQuery = `DELETE FROM userTrip WHERE id = ${tripId}`;
@@ -480,7 +371,7 @@ const deleteEditTrip = (req, res) => {
   });
 }
 
-const getWeather = (req, res) => {
+export const getWeather = (req, res) => {
   const { cityName } = req.params;
   const { username } = req.cookies;
   const options = {
@@ -507,7 +398,7 @@ const getWeather = (req, res) => {
   });
 }
 
-const postFavorite = (req) => {
+export const postFavorite = (req) => {
   const { username } = req.cookies;
   const { cityId, attractionsId } = req.params;
   const insertQuery = 'INSERT INTO favorites (username, cityId, attractionsId) VALUES ($1,$2,$3) ON CONFLICT (username, attractionsId) DO NOTHING';
@@ -519,7 +410,7 @@ const postFavorite = (req) => {
   });
 }
 
-const postUnfavorite = (req) => {
+export const postUnfavorite = (req) => {
   const { username } = req.cookies;
   const { attractionsId } = req.params;
   const deleteQuery = 'DELETE FROM favorites WHERE attractionsId = $1 AND username = $2';
@@ -531,7 +422,7 @@ const postUnfavorite = (req) => {
   });
 }
 
-const getFavorites = (req, res) => {
+export const getFavorites = (req, res) => {
   let finalResults;
   const { username } = req.params;
   const tripQuery = 'SELECT attractions.id, cities.name, attractions.name AS attractionsName, attractions.details, attractions.id AS attractionsId, cities.id AS citiesId, attractions.imageLink, cost, username FROM attractions INNER JOIN cities ON cities.id = attractions.cityId INNER JOIN favorites ON favorites.attractionsId = attractions.id';
@@ -545,72 +436,3 @@ const getFavorites = (req, res) => {
     });
   });
 }
-
-app.use((request, response, next) => {
-  // set the default value
-  request.isUserLoggedIn = false;
-
-  // check to see if the cookies you need exists
-  if (request.cookies.loggedInHash && request.cookies.username) {
-    // get the hased value that should be inside the cookie
-    const hash = getHash(request.cookies.username);
-
-    // test the value of the cookie
-    if (request.cookies.loggedInHash === hash) {
-      request.isUserLoggedIn = true;
-    }
-  }
-  console.log('Checking for authorization!');
-  next();
-});
-
-const authMiddleware = (request, response, next) => {
-  // is the user logged in? Use the other middleware.
-  if (request.isUserLoggedIn === false) {
-    response.redirect('/login');
-  } else {
-    // The user is logged in. Get the user from the DB.
-    const userQuery = 'SELECT * FROM users WHERE username=$1';
-    pool.query(userQuery, [request.cookies.username])
-      .then((userQueryResult) => {
-        // can't find the user based on their cookie.
-        if (userQueryResult.rows.length === 0) {
-          response.redirect('/login');
-          return;
-        }
-
-        // attach the DB query result to the request object.
-        request.user = userQueryResult.rows[0];
-
-        // go to the route callback.
-        next();
-      }).catch(() => {
-        response.redirect('/login');
-      });
-  }
-};
-
-app.get('/signup', getSignUp);
-app.post('/signup', postSignUp);
-app.get('/login', getLogin);
-app.post('/login', postLogin);
-app.delete('/logout', deleteLogout);
-app.get('/', getHomepage);
-app.get('/add-trip', authMiddleware, getAddTrip);
-app.post('/add-trip', postAddTrip);
-app.get('/add-attractions/:tripId/:cityId', authMiddleware, getAddAttraction);
-app.put('/add-attractions/:tripId/:cityId', authMiddleware, putAddAttractions);
-app.get('/planned-trips/:username', authMiddleware, getPlannedTrips);
-app.get('/planned-trips/:username/:tripId', authMiddleware, getPlannedTripsByTripId);
-app.get('/attractions', getAttractions);
-app.get('/destinations', getDestinations);
-app.get('/edit-trip/:tripId', getEditTrip);
-app.put('/edit-trip/:tripId', putEditTrip);
-app.get('/edit-add-attractions/:tripId/:cityId/:totalPax/:budget', authMiddleware, getEditAddAttractions);
-app.put('/edit-final-attractions/:tripId/:cityId/:totalPax/:budget', authMiddleware, putEditAddAttractions);
-app.delete('/edit-trip/:tripId', deleteEditTrip);
-app.get('/weather/:cityName', getWeather);
-app.post('/favorite/:attractionsId/:cityId', postFavorite);
-app.post('/unfavorite/:attractionsId', postUnfavorite);
-app.get('/favorites/:username', getFavorites);
-app.listen(PORT, console.log(` 🚀 Running on port ${PORT}! 🚀`));

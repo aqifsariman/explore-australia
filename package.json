@@ -14,6 +14,7 @@
   "dependencies": {
     "airport-codes": "^1.0.2",
     "amadeus": "^5.7.1",
+    "aws-sdk": "^2.1122.0",
     "axios": "^0.26.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -25,6 +26,7 @@
     "jssha": "^3.2.0",
     "method-override": "^3.0.0",
     "moment": "^2.29.1",
+    "multer-s3": "^2.10.0",
     "nodemon": "^2.0.15",
     "path": "^0.12.7",
     "pg": "^8.7.3",

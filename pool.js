@@ -16,10 +16,10 @@ if (process.env.DATABASE_URL) {
 else {
 // set the way we will connect to the server
   pgConnectionConfigs = {
-    user: 'aqifsariman',
-    host: 'localhost',
-    database: 'explore',
-    port: 5432,
+    user: process.env.POSTGRES_USERNAME,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DATABASE,
+    port: process.env.POSTGRES_PORT,
   };
 }
 
